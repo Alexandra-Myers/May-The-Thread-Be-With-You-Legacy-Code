@@ -1,8 +1,8 @@
 {
 	"schema_version": 1,
 	"quilt_loader": {
-		"group": "com.example",
-		"id": "example_mod",
+		"group": "de.zonlykroks",
+		"id": "mttbwu",
 		"version": "${version}",
 		"metadata": {
 			"name": "Mod Name",
@@ -19,7 +19,7 @@
 		},
 		"intermediate_mappings": "net.fabricmc:intermediary",
 		"entrypoints": {
-			"init": "com.example.example_mod.ExampleMod"
+			"init": "de.zonlykroks.mttbwu.MayTheThreadsBeWithYou"
 		},
 		"depends": [
 			{
@@ -36,5 +36,6 @@
 			}
 		]
 	},
-	"mixin": "example_mod.mixins.json"
+	"mixin": "mttbwu.mixins.json",
+	"access_widener" : "mttbwu.accesswidener"
 }

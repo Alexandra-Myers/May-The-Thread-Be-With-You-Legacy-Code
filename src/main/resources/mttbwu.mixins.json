@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "de.zonlykroks.mttbwu.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "ServerMainMixin"
+  ],
+  "client": [
+    "MainMixin",
+    "RenderSystemMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

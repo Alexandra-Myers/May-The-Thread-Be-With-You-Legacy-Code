@@ -1,12 +1,18 @@
 package de.zonlykroks.mttbwu.mixin;
 
+import com.google.gson.Gson;
+import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.blaze3d.glfw.WindowSettings;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferRenderer;
+import joptsimple.OptionParser;
+import joptsimple.OptionSet;
+import joptsimple.OptionSpec;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.RunArgs;
 import net.minecraft.client.main.Main;
 import net.minecraft.client.util.GlException;
+import net.minecraft.client.util.Session;
 import net.minecraft.util.WinNativeModuleLister;
 import net.minecraft.util.crash.CrashReport;
 import net.minecraft.util.crash.CrashReportSection;
@@ -21,6 +27,11 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import java.io.File;
+import java.net.Proxy;
+import java.util.List;
+import java.util.OptionalInt;
+
 @Mixin(Main.class)
 public class MainMixin implements de.zonlykroks.mttbwu.extensions.IMain {
 
@@ -31,22 +42,19 @@ public class MainMixin implements de.zonlykroks.mttbwu.extensions.IMain {
 	private static Thread renderingThread;
 
 	@Inject(method = "main([Ljava/lang/String;Z)V", at = @At(value = "INVOKE", target = "Ljava/lang/Runtime;addShutdownHook(Ljava/lang/Thread;)V"), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
-	private static void injectThread(String[] args, boolean bl, CallbackInfo ci) {
+	private static void injectThread(String args[], boolean bl, CallbackInfo ci, OptionParser optionParser, OptionSpec optionSpec, OptionSpec optionSpec2, OptionSpec optionSpec3, OptionSpec optionSpec4, OptionSpec optionSpec5, OptionSpec optionSpec6, OptionSpec optionSpec7, OptionSpec optionSpec8, OptionSpec optionSpec9, OptionSpec optionSpec10, OptionSpec optionSpec11, OptionSpec optionSpec12, OptionSpec optionSpec13, OptionSpec optionSpec14, OptionSpec optionSpec15, OptionSpec optionSpec16, OptionSpec optionSpec17, OptionSpec optionSpec18, OptionSpec optionSpec19, OptionSpec optionSpec20, OptionSpec optionSpec21, OptionSpec optionSpec22, OptionSpec optionSpec23, OptionSpec optionSpec24, OptionSpec optionSpec25, OptionSpec optionSpec26, OptionSet optionSet, List list, String string, Proxy proxy, String string2, String string3, int i, int j, OptionalInt optionalInt, OptionalInt optionalInt2, boolean bl2, boolean bl3, boolean bl4, boolean bl5, String string4, Gson gson, PropertyMap propertyMap, PropertyMap propertyMap2, String string5, File file, File file2, File file3, String string6, String string7, String string8, String string9, String string10, Integer integer, String string11, Session.AccountType accountType, Session session, RunArgs runArgs, Thread thread) {
 		Thread renderThread = new Thread() {
 			@Override
 			public void run() {
 				super.run();
 			}
 		};
-
-		renderThread.setName("Render Thread");
-
 		renderingThread = renderThread;
 		Runtime.getRuntime().addShutdownHook(thread);
 
 		final MinecraftClient minecraftClient;
 		try {
-			Thread.currentThread().setName("Render thread");
+			renderThread.setName("Render Thread");
 			RenderSystem.initRenderThread();
 			RenderSystem.beginInitialization();
 			minecraftClient = new MinecraftClient(runArgs);

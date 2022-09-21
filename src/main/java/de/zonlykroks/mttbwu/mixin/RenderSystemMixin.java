@@ -40,5 +40,17 @@ public class RenderSystemMixin {
 	public static boolean isOnRenderThread() {
 		return true;
 	}
+	/**
+	 * @author Alexandra
+	 * @reason Make game function
+	 */
+	@Overwrite(remap = false)
+	public static void initGameThread(boolean bl) {
+		if (gameThread == null && renderThread != null) {
+			gameThread = Thread.currentThread();
+		} else {
+			throw new IllegalStateException("Could not initialize tick thread");
+		}
+	}
 
 }

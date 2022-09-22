@@ -7,6 +7,7 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.Lifecycle;
+import de.zonlykroks.mttbwu.MayTheThreadsBeWithYou;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
@@ -80,6 +81,7 @@ public abstract class ServerMainMixin {
 
 	@Inject(method = "main", at = @At(value = "HEAD"), cancellable = true, remap = false)
 	private static void main(String[] strings, CallbackInfo ci) {
+		MayTheThreadsBeWithYou.LOGGER.info("Starting Minecraft Server");
 		SharedConstants.createGameVersion();
 		OptionParser optionParser = new OptionParser();
 		OptionSpec<Void> optionSpec = optionParser.accepts("nogui");
@@ -136,9 +138,9 @@ public abstract class ServerMainMixin {
 			for (var initializer : QuiltLoader.getEntrypointContainers(DedicatedServerModInitializer.ENTRYPOINT_KEY, DedicatedServerModInitializer.class)) {
 				initializer.getEntrypoint().onInitializeServer(initializer.getProvider());
 			}
-			File file = new File((String)optionSet.valueOf(optionSpec10));
+			File file = new File(optionSet.valueOf(optionSpec10));
 			Services services = Services.create(new YggdrasilAuthenticationService(Proxy.NO_PROXY), file);
-			String string = (String) Optional.ofNullable((String)optionSet.valueOf(optionSpec11)).orElse(serverPropertiesLoader.getPropertiesHandler().levelName);
+			String string = Optional.ofNullable(optionSet.valueOf(optionSpec11)).orElse(serverPropertiesLoader.getPropertiesHandler().levelName);
 			LevelStorage levelStorage = LevelStorage.create(file.toPath());
 			LevelStorage.Session session = levelStorage.createSession(string);
 			LevelSummary levelSummary = session.getLevelSummary();
@@ -164,11 +166,11 @@ public abstract class ServerMainMixin {
 			Thread worldThread = new Thread(() -> {
 				WorldStem worldStem;
 				try {
-					DataPackSettings dataPackSettings = (DataPackSettings)Objects.requireNonNullElse(session.getDataPackSettings(), ModResourcePackUtil.DEFAULT_SETTINGS);
+					DataPackSettings dataPackSettings = Objects.requireNonNullElse(session.getDataPackSettings(), ModResourcePackUtil.DEFAULT_SETTINGS);
 					C_kjxfcecs.C_nrmvgbka c_nrmvgbka = new C_kjxfcecs.C_nrmvgbka(resourcePackManager, dataPackSettings, bl);
 					C_kjxfcecs.C_kculhjuh c_kculhjuh = new C_kjxfcecs.C_kculhjuh(c_nrmvgbka, CommandManager.RegistrationEnvironment.DEDICATED, serverPropertiesLoader.getPropertiesHandler().functionPermissionLevel);
 					ResourceLoaderEvents.START_DATA_PACK_RELOAD.invoker().onStartDataPackReload(null, null);
-					worldStem = (WorldStem) Util.method_43499((executor) -> WorldStem.load(c_kculhjuh, (resourceManager, dataPackSettings1) -> {
+					worldStem = Util.method_43499((executor) -> WorldStem.load(c_kculhjuh, (resourceManager, dataPackSettings1) -> {
 						DynamicRegistryManager.Writable writable = DynamicRegistryManager.builtInCopy();
 						DynamicOps<NbtElement> dynamicOps = RegistryOps.createAndLoad(NbtOps.INSTANCE, writable, resourceManager);
 						SaveProperties saveProperties = session.readLevelProperties(dynamicOps, dataPackSettings1, writable.allElementsLifecycle());

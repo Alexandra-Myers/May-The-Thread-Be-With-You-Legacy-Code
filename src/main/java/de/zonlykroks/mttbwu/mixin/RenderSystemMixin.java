@@ -10,11 +10,11 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(RenderSystem.class)
 public class RenderSystemMixin {
-	@Shadow
+	@Shadow(remap = false)
 	@Nullable
 	private static Thread renderThread;
 
-	@Shadow
+	@Shadow(remap = false)
 	@Nullable
 	private static Thread gameThread;
 
@@ -40,6 +40,7 @@ public class RenderSystemMixin {
 	public static boolean isOnRenderThread() {
 		return true;
 	}
+
 	/**
 	 * @author Alexandra
 	 * @reason Make game function

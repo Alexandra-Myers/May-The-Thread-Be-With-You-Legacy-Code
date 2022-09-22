@@ -161,7 +161,7 @@ public abstract class ServerMainMixin {
 				LOGGER.warn("Safe mode active, only vanilla datapack will be loaded");
 			}
 
-			ResourcePackManager resourcePackManager = new ResourcePackManager(ResourceType.SERVER_DATA, new ResourcePackProvider[]{new VanillaDataPackProvider(), new FileResourcePackProvider(session.getDirectory(WorldSavePath.DATAPACKS).toFile(), ResourcePackSource.PACK_SOURCE_WORLD)});
+			ResourcePackManager resourcePackManager = new ResourcePackManager(ResourceType.SERVER_DATA, new VanillaDataPackProvider(), new FileResourcePackProvider(session.getDirectory(WorldSavePath.DATAPACKS).toFile(), ResourcePackSource.PACK_SOURCE_WORLD));
 
 			Thread worldThread = new Thread(() -> {
 				WorldStem worldStem;

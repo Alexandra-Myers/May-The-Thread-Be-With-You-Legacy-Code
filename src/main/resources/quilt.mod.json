@@ -5,15 +5,15 @@
 		"id": "mttbwu",
 		"version": "${version}",
 		"metadata": {
-			"name": "Mod Name",
-			"description": "A short description of your mod.",
+			"name": "May The Thread Be With You",
+			"description": "'Threads? What are those?' - Mojang, probably",
 			"contributors": {
-				"Your name here": "Owner"
+				"Alexandra": "Owner",
+				"zOnlyKroks": "Contributor"
 			},
 			"contact": {
-				"homepage": "https://example.com/",
-				"issues": "https://github.com/QuiltMC/quilt-template-mod/issues",
-				"sources": "https://github.com/QuiltMC/quilt-template-mod"
+				"issues": "https://github.com/zOnlyKroks/May-The-Thread-Be-With-You/issues",
+				"sources": "https://github.com/zOnlyKroks/May-The-Thread-Be-With-You"
 			},
 			"icon": "assets/example_mod/icon.png"
 		},

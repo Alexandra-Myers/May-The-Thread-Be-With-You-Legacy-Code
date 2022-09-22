@@ -11,7 +11,6 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
 import net.fabricmc.fabric.impl.datagen.FabricDataGenHelper;
-import net.fabricmc.fabric.impl.gametest.FabricGameTestHelper;
 import net.minecraft.Bootstrap;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.world.GeneratorTypes;
@@ -128,7 +127,7 @@ public abstract class ServerMainMixin {
 				return;
 			}
 
-			boolean eula = FabricGameTestHelper.ENABLED || eulaReader.isEulaAgreedTo();
+			boolean eula = eulaReader.isEulaAgreedTo();
 			if (!eula) {
 				LOGGER.info("You need to agree to the EULA in order to run the server. Go to eula.txt for more info.");
 				return;
@@ -161,10 +160,6 @@ public abstract class ServerMainMixin {
 			}
 
 			ResourcePackManager resourcePackManager = new ResourcePackManager(ResourceType.SERVER_DATA, new ResourcePackProvider[]{new VanillaDataPackProvider(), new FileResourcePackProvider(session.getDirectory(WorldSavePath.DATAPACKS).toFile(), ResourcePackSource.PACK_SOURCE_WORLD)});
-			if (FabricGameTestHelper.ENABLED) {
-				FabricGameTestHelper.runHeadlessServer(session, resourcePackManager);
-				return;  // Do not progress in starting the normal dedicated server
-			}
 
 			Thread worldThread = new Thread(() -> {
 				WorldStem worldStem;
@@ -234,9 +229,6 @@ public abstract class ServerMainMixin {
 			worldThread.start();
 		} catch (Exception var36) {
 			LOGGER.error(LogUtils.FATAL_MARKER, "Failed to start the minecraft server", var36);
-			if (FabricGameTestHelper.ENABLED) {
-				System.exit(-1);
-			}
 		}
 		ci.cancel();
 	}

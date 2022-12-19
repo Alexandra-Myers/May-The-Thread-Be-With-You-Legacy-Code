@@ -7,8 +7,7 @@
     "ServerMainMixin"
   ],
   "client": [
-    "MainMixin",
-    "RenderSystemMixin"
+    "ClientMixin"
   ],
   "injectors": {
     "defaultRequire": 1
